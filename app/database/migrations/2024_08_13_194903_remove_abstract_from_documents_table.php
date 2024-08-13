@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->text('comment');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('document_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('documents', function (Blueprint $table) {
+            $table->dropColumn('abstract'); // Briše kolonu 'abstract'
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::table('documents', function (Blueprint $table) {
+            $table->text('abstract')->after('content'); // Dodaje ponovo kolonu 'abstract'
+        });
     }
 };
