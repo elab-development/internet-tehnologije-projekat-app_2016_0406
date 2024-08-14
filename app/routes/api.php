@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DocumentTagController;
 use App\Http\Controllers\TagController;
 
 /*
@@ -25,7 +26,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::get('/document-tags', [DocumentTagController::class, 'index']);
+    Route::post('/document-tags', [DocumentTagController::class, 'store']);
+    Route::get('/document-tags/{id}', [DocumentTagController::class, 'show']);
+    Route::put('/document-tags/{id}', [DocumentTagController::class, 'update']);
+    Route::delete('/document-tags/{id}', [DocumentTagController::class, 'destroy']);
 
     Route::get('/tags', [TagController::class, 'index']);
     Route::post('/tags', [TagController::class, 'store']);
