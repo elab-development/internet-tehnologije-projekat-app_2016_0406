@@ -103,4 +103,34 @@ class DocumentController extends Controller
 
         return response()->json(['message' => 'Document deleted successfully.']);
     }
+
+     /**
+     * Search documents based on various criteria.
+     */
+    public function search(Request $request)
+    {
+        $query = Document::query();
+
+        if ($request->has('title')) {
+            $query->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+
+        if ($request->has('content')) {
+            $query->where('content', 'like', '%' . $request->input('content') . '%');
+        }
+
+        if ($request->has('tag')) {
+            $query->whereHas('tags', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->input('tag') . '%');
+            });
+        }
+
+        if ($request->has('user_id')) {
+            $query->where('user_id', $request->input('user_id'));
+        }
+
+        $documents = $query->get();
+
+        return DocumentResource::collection($documents);
+    }
 }

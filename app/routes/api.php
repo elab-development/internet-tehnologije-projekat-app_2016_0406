@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/documents/{id}', [DocumentController::class, 'show']);
     Route::put('/documents/{id}', [DocumentController::class, 'update']);
     Route::delete('/documents/{id}', [DocumentController::class, 'destroy']);
-
+    Route::get('/documents/search', [DocumentController::class, 'search']); // Ruta za pretragu
 
     Route::get('/document-tags', [DocumentTagController::class, 'index']);
     Route::post('/document-tags', [DocumentTagController::class, 'store']);
