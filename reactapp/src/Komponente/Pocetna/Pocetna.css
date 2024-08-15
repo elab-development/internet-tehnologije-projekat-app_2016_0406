@@ -1,0 +1,91 @@
+.pocetna-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+  
+.pocetna-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    background-color: #f5f5f5;
+}
+  
+.header-content {
+    max-width: 50%;
+}
+  
+.header-content h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+  
+.header-content p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+  
+.search-bar {
+    display: flex;
+    margin-top: 20px;
+}
+  
+.search-bar input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+  
+.search-bar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+  
+.header-image {
+    width: 40%;
+    height: 300px; /* Dodajemo visinu */
+    background-image: url('https://img.freepik.com/free-vector/document-vector-colorful-design_341269-1262.jpg?t=st=1723719541~exp=1723723141~hmac=13378e9c5900291ec7f92020d70045529d3a07d12db32ed3165e54d7e9ea4dfa&w=1060'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; /* Centriramo sliku */
+}
+  
+.topics-section {
+    padding: 50px;
+    background-color: #111;
+    color: white;
+}
+  
+.topics-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+  
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+}
+  
+.topic-card {
+    background-color: #222;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+}
+  
+.topic-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+  
+.topic-card p {
+    font-size: 1em;
+    color: #aaa;
+}
