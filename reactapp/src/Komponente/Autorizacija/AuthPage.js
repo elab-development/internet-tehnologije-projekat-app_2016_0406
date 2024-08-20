@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Dodajemo useNavigate
 import './AuthPage.css';
 
-const AuthPage = () => {
+const AuthPage = ({setIsLoggedIn }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: 'john@example.com',
+    password: 'password',
     name: '',
     password_confirmation: '',
     role_id: 2,  // Defaultna uloga za novog korisnika
@@ -14,6 +15,7 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate(); // Inicijalizujemo useNavigate
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,23 +37,48 @@ const AuthPage = () => {
         });
         setSuccessMessage('Login successful!');
         
-        // Save token to session storage
+        // Save token and user to session storage
         sessionStorage.setItem('access_token', response.data.access_token);
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
         console.log('Token saved:', response.data.access_token);
+        console.log('User saved:', response.data.user);
+        setIsLoggedIn(true);
+        // Navigate based on role
+        if (response.data.user.role_id === 2) {
+          navigate('/documents');
+        } else if (response.data.user.role_id === 1) {
+          navigate('/admin');
+        }
         
       } else {
         // Registration request
         const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
         setSuccessMessage('Registration successful!');
         
-        // Save token to session storage
+        // Save token and user to session storage
         sessionStorage.setItem('access_token', response.data.access_token);
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
         console.log('Token saved:', response.data.access_token);
+        console.log('User saved:', response.data.user);
+        setIsLoggedIn(true);
+        // Navigate based on role
+        if (response.data.user.role_id === 2) {
+          navigate('/documents');
+        } else if (response.data.user.role_id === 1) {
+          navigate('/admin');
+        }
       }
       setErrors({});
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
+        // Proveri da li postoji poruka o grešci i postavi je u errors.message
+        if (error.response.data.message) {
+          setErrors(prevErrors => ({
+            ...prevErrors,
+            message: error.response.data.message
+          }));
+        }
       }
     }
   };
@@ -137,6 +164,7 @@ const AuthPage = () => {
             {isLogin ? 'Login' : 'Register'}
           </button>
           {successMessage && <p className="success-text">{successMessage}</p>}
+          {errors.message && <p className="error-text">{errors.message}</p>}
         </form>
         <p>
           {isLogin ? "Don't have an account?" : 'Already have an account?'}

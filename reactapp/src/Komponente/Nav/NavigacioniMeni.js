@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavigacioniMeni.css';
 
-const NavigacioniMeni = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Proveravamo da li postoji token u session storage-u
-    const token = sessionStorage.getItem('access_token');
-    setIsLoggedIn(!!token);
-  }, []);
+const NavigacioniMeni = ({isLoggedIn,setIsLoggedIn}) => {
 
   return (
     <nav className="navigacioni-meni">
@@ -19,6 +12,9 @@ const NavigacioniMeni = () => {
         </li>
         {isLoggedIn ? (
           <>
+          <li>
+              <Link to="/documents">Documents</Link>
+            </li>
             <li>
               <Link to="/logout">Logout</Link>
             </li>
@@ -28,9 +24,7 @@ const NavigacioniMeni = () => {
             <li>
               <Link to="/login">Login</Link>
             </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
+           
           </>
         )}
       </ul>

@@ -20,8 +20,8 @@ class DocumentResource extends JsonResource
             'content' => $this->content,
             'user' => new UserResource($this->user),
             'file_path' => $this->file_path,
-            'comments' => CommentResource::collection($this->comments),
-            'tags' => TagResource::collection($this->tags),
+          //  'comments' => CommentResource::collection($this->comments),
+           //'tags' => TagResource::collection($this->tags),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
