@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';  
-
+import './Documents.css';
 import useDocuments from './useDocuments';
 
 Modal.setAppElement('#root');

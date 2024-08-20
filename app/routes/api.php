@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -63,6 +64,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('download', [DocumentController::class, 'download']);
 
 
-});
 
+});
+Route::middleware('auth:sanctum')->get('/admin/users', [AdminController::class, 'getUsers']);
+Route::middleware('auth:sanctum')->put('/admin/users/{user}', [AdminController::class, 'updateUserRole']);
+Route::middleware('auth:sanctum')->get('admin/statistics', [AdminController::class, 'getStatistics']);
     

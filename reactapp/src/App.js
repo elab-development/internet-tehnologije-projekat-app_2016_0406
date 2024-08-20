@@ -7,6 +7,7 @@ import NavigacioniMeni from './Komponente/Nav/NavigacioniMeni';
 import Logout from './Komponente/Autorizacija/Logout'; 
 import Documents from './Komponente/Dokumenta/Documents';
 import OneDocument from './Komponente/Dokumenta/OneDocument';
+import Admin from './Komponente/Admin/Admin';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,6 +32,7 @@ function App() {
           <Route path="/documents" element={<Documents />} />
           <Route path="/documents/:id" element={<OneDocument />} />
 
+          <Route path="/admin" element={<Admin />} />
 
           
         </Routes>

@@ -16,6 +16,9 @@ const NavigacioniMeni = ({isLoggedIn,setIsLoggedIn}) => {
               <Link to="/documents">Documents</Link>
             </li>
             <li>
+              <Link to="/admin">Admin</Link>
+            </li>
+            <li>
               <Link to="/logout">Logout</Link>
             </li>
           </>
