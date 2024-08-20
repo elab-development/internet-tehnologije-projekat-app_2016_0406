@@ -9,6 +9,7 @@ import Documents from './Komponente/Dokumenta/Documents';
 import OneDocument from './Komponente/Dokumenta/OneDocument';
 import Admin from './Komponente/Admin/Admin';
 import FAQ from './Komponente/FAQ/FAQ';
+import Konvertuj from './Komponente/KonvertApi/Konvertuj';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,6 +36,7 @@ function App() {
 
           <Route path="/admin" element={<Admin />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/konvertuj" element={<Konvertuj />} />
 
           
         </Routes>

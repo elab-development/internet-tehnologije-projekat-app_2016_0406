@@ -18,7 +18,7 @@ const Logout = () => {
       .then(response => {
         console.log('Logout successful:', response.data);
         // Brisanje tokena iz session storage-a
-        sessionStorage.removeItem('access_token');
+        sessionStorage.clear();
         // Navigacija na početnu stranicu
         navigate('/');
       })
