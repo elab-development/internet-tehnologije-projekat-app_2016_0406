@@ -27,11 +27,15 @@
 
 .data-table-container {
     margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .data-table-container .rdt_TableHeadRow {
     background-color: #0288d1; /* Plava */
     color: white;
+    font-weight: bold;
 }
 
 .data-table-container .rdt_TableRow:nth-child(even) {
@@ -40,6 +44,7 @@
 
 .data-table-container .rdt_TableCell {
     padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
 }
 
 .data-table-container button {
@@ -49,6 +54,8 @@
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
 }
 
 .data-table-container button:hover {
@@ -83,6 +90,7 @@ button[type="submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {

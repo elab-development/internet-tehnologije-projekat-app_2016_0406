@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';  
 import './Documents.css';
 import useDocuments from './useDocuments';
+ 
 
 Modal.setAppElement('#root');
 
@@ -220,10 +221,11 @@ const Documents = () => {
       {errorMessage && <p className="error-text">{errorMessage}</p>}
       {successMessage && <p className="success-text">{successMessage}</p>}
       <DataTable
-        columns={columns}
-        data={filteredDocuments}
-        pagination
-      />
+      className="data-table-container"
+      columns={columns}
+      data={filteredDocuments}
+      pagination
+    />
 
       <button onClick={() => setIsModalOpen(true)}>Add New Document</button>
 
