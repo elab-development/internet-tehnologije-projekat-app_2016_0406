@@ -49,9 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/tags/{id}', [TagController::class, 'destroy']);
 
 
-    Route::get('/comments', [CommentController::class, 'index']);
+    
     Route::post('/comments', [CommentController::class, 'store']);
-    Route::get('/comments/{id}', [CommentController::class, 'show']);
+    Route::get('/comments/{id}', [CommentController::class, 'index']);  //vraca sve komentare za odredjeni dokument
     Route::put('/comments/{id}', [CommentController::class, 'update']);
     Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 

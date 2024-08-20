@@ -13,9 +13,9 @@ class CommentController extends Controller
     /**
      * Display a listing of the comments.
      */
-    public function index()
+    public function index($id)
     {
-        $comments = Comment::all();
+        $comments = Comment::where('document_id', $id)->get(); 
         return CommentResource::collection($comments);
     }
 

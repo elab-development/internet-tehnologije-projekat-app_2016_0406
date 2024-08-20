@@ -17,10 +17,11 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'user' => new UserResource($this->user),
-            'document' => new DocumentResource($this->document),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toDateTimeString(),
+            'user' => [
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+            ],
         ];
     }
 }

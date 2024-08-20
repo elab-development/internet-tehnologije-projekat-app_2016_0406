@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\DocumentResource;
 use App\Models\Comment;
+use App\Models\DocumentTag;
+use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
@@ -25,30 +27,53 @@ class DocumentController extends Controller
     /**
      * Store a newly created document in storage.
      */
+   /**
+     * Store a newly created document in storage.
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'file' => 'required|file|mimes:pdf,doc,docx,txt|max:2048', // Ograničenje tipova i veličine fajla
+            'tags' => 'array', // Očekujemo niz stringova za tagove
+            'tags.*' => 'string|max:255' // Svaki tag treba da bude string maksimalne dužine 255 karaktera
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
-        // Čuvanje fajla u storage-u
-        $filePath = $request->file('file')->store('documents', 'public');
-
-        $document = Document::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'user_id' => Auth::id(), // Korisimo ID ulogovanog korisnika
-            'file_path' => $filePath,
-        ]);
-
+    
+        $document = null;
+    
+        DB::transaction(function () use ($request, &$document) {
+            // Čuvanje fajla u storage-u
+            $filePath = $request->file('file')->store('documents', 'public');
+    
+            // Kreiranje dokumenta
+            $document = Document::create([
+                'title' => $request->title,
+                'content' => $request->content,
+                'user_id' => Auth::id(), // Korisimo ID ulogovanog korisnika
+                'file_path' => $filePath,
+            ]);
+    
+            // Obrada tagova
+            $tags = $request->input('tags', []);
+            foreach ($tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+    
+                // Povezivanje tagova sa dokumentom
+                DB::table('document_tag')->insert([
+                    'document_id' => $document->id,
+                    'tag_id' => $tag->id,
+                ]);
+            }
+        });
+    
         return new DocumentResource($document);
     }
+    
 
     /**
      * Display the specified document.
@@ -106,6 +131,9 @@ class DocumentController extends Controller
         DB::transaction(function () use ($document) {
             // Brišemo komentare vezane za dokument
             Comment::where('document_id', $document->id)->delete();
+            // Brišemo komentare tagove za dokument
+            DocumentTag::where('document_id', $document->id)->delete();
+
 
             // Brišemo fajl iz storage-a
             Storage::disk('public')->delete($document->file_path);
@@ -114,7 +142,7 @@ class DocumentController extends Controller
             $document->delete();
         });
 
-        return response()->json(['message' => 'Document and associated comments deleted successfully.']);
+        return response()->json(['message' => 'Document and associated comments and tags deleted successfully.']);
     }
     public function download(Request $request)
     {
