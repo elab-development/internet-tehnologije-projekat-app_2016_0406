@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\DocumentResource;
+use App\Models\Comment;
+use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
@@ -96,14 +98,36 @@ class DocumentController extends Controller
     {
         $document = Document::findOrFail($id);
 
-        // Brišemo fajl iz storage-a
-        Storage::disk('public')->delete($document->file_path);
-        
-        $document->delete();
+        // Provera da li je korisnik vlasnik dokumenta
+        if ($document->user_id !== Auth::id()) {
+            return response()->json(['message' => 'You are not authorized to delete this document.'], 403);
+        }
 
-        return response()->json(['message' => 'Document deleted successfully.']);
+        DB::transaction(function () use ($document) {
+            // Brišemo komentare vezane za dokument
+            Comment::where('document_id', $document->id)->delete();
+
+            // Brišemo fajl iz storage-a
+            Storage::disk('public')->delete($document->file_path);
+
+            // Brišemo dokument
+            $document->delete();
+        });
+
+        return response()->json(['message' => 'Document and associated comments deleted successfully.']);
     }
+    public function download(Request $request)
+    {
+        $filePath = $request->query('file_path');
 
+        // Proveravamo da li fajl postoji
+        if (!Storage::disk('public')->exists($filePath)) {
+            return response()->json(['message' => 'File not found.'], 404);
+        }
+
+        // Vraćamo fajl korisniku
+        return Storage::disk('public')->download($filePath);
+    }
      /**
      * Search documents based on various criteria.
      */
