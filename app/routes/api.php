@@ -28,6 +28,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('/documents/{document}/tags', [DocumentController::class, 'getTags']);
+    Route::post('/documents/{document}/tags', [DocumentController::class, 'addTag']);
+    Route::delete('/tags/{tag}', [DocumentController::class, 'removeTag']);
+
+
 
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::post('/documents', [DocumentController::class, 'store']);
@@ -56,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
 
     Route::get('download', [DocumentController::class, 'download']);
+
+
 });
 
     

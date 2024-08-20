@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\DocumentResource;
+use App\Http\Resources\TagResource;
 use App\Models\Comment;
 use App\Models\DocumentTag;
 use App\Models\Tag;
@@ -184,5 +185,39 @@ class DocumentController extends Controller
         $documents = $query->get();
 
         return DocumentResource::collection($documents);
+    }
+    public function getTags($documentId)
+    {
+        $document = Document::findOrFail($documentId);
+        return TagResource::collection($document->tags);
+    }
+
+    public function addTag(Request $request, $documentId)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $document = Document::findOrFail($documentId);
+
+        $tag = new Tag();
+        $tag->name = $request->name;
+        $tag->save();
+
+        $document->tags()->attach($tag->id);
+
+        return new TagResource($tag);
+    }
+
+    public function removeTag($tagId)
+    {
+        $tag = Tag::findOrFail($tagId);
+        $tag->delete();
+
+        return response()->json(['message' => 'Tag removed successfully.']);
     }
 }

@@ -58,6 +58,11 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
 
+        // Check if the logged-in user is the owner of the comment
+        if ($comment->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         $validator = Validator::make($request->all(), [
             'content' => 'required|string',
             'document_id' => 'required|exists:documents,id',
@@ -81,8 +86,14 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);
+    
+        // Check if the logged-in user is the owner of the comment
+        if ($comment->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
         $comment->delete();
-
+    
         return response()->json(['message' => 'Comment deleted successfully.']);
     }
 }
