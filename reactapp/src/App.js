@@ -13,20 +13,29 @@ import Konvertuj from './Komponente/KonvertApi/Konvertuj';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
 
   useEffect(() => {
     // Proveravamo da li postoji token u session storage-u
     const token = sessionStorage.getItem('access_token');
     setIsLoggedIn(!!token);
   }, []);
-
+  
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (user && user.role_id) {
+      setUserRole(user.role_id);
+    }
+  }, []);
+  
   return (
     <Router>
       <div className="App">
-        <NavigacioniMeni isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <NavigacioniMeni isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userRole={userRole} setUserRole={setUserRole} />
         <Routes>
           <Route path="/" element={<Pocetna />} />
-          <Route path="/login" element={<AuthPage setIsLoggedIn={setIsLoggedIn}  />} />
+          <Route path="/login" element={<AuthPage setIsLoggedIn={setIsLoggedIn}  setUserRole={setUserRole} />} />
  
           <Route path="/logout" element={<Logout />} />
 

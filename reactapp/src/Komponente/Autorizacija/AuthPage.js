@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Dodajemo useNavigate
 import './AuthPage.css';
 
-const AuthPage = ({setIsLoggedIn }) => {
+const AuthPage = ({setIsLoggedIn,setUserRole}) => {
   const [formData, setFormData] = useState({
     email: 'john@example.com',
     password: 'password',
@@ -27,7 +27,7 @@ const AuthPage = ({setIsLoggedIn }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       if (isLogin) {
         // Login request
@@ -42,7 +42,12 @@ const AuthPage = ({setIsLoggedIn }) => {
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
         console.log('Token saved:', response.data.access_token);
         console.log('User saved:', response.data.user);
+  
         setIsLoggedIn(true);
+  
+        // Set user role directly after login
+        setUserRole(response.data.user.role_id);
+  
         // Navigate based on role
         if (response.data.user.role_id === 2) {
           navigate('/documents');
@@ -60,7 +65,12 @@ const AuthPage = ({setIsLoggedIn }) => {
         sessionStorage.setItem('user', JSON.stringify(response.data.user));
         console.log('Token saved:', response.data.access_token);
         console.log('User saved:', response.data.user);
+  
         setIsLoggedIn(true);
+  
+        // Set user role directly after registration
+        setUserRole(response.data.user.role_id);
+  
         // Navigate based on role
         if (response.data.user.role_id === 2) {
           navigate('/documents');
@@ -82,6 +92,7 @@ const AuthPage = ({setIsLoggedIn }) => {
       }
     }
   };
+  
 
   return (
     <div className="auth-page-container">
