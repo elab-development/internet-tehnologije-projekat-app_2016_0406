@@ -1,1 +1,24 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/1IMeAlJr)
+# Opis aplikacije
+Aplikacija je kreirana za predmet ITEH na FONu. Tema aplikaci je Document Management System. Aplikacija ima sledece funkcionalnosti
+1. registracija
+2. login
+3. Prikaz svih dokumenata
+4. Kreiranje dokumenta
+5. brisanje dokumenta
+6. preuzimanje dokumenta
+7. konvertovanje word fajla u pdf
+8. pregled svih komentara
+9. kreiranje komentara
+10. brisanje komentara
+11. azuriranje komentara
+12. pregled statistika (admin)
+13. izmena korisnickih uloga (admin)
+
+
+
+# Koriscen softver
+1. VS CODE
+2. xampp
+3. node js
+4. laravel
+
