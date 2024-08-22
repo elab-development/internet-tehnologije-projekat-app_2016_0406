@@ -22,3 +22,15 @@ Aplikacija je kreirana za predmet ITEH na FONu. Tema aplikaci je Document Manage
 3. node js
 4. laravel
 
+# POKRETANJE APLIKACIJE 
+
+    cd app
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate:fresh --seed
+    php artisan serve
+
+    cd reactproj
+    npm install
+    npm start
