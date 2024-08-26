@@ -25,7 +25,7 @@ const Documents = () => {
   const [synonyms, setSynonyms] = useState([]);
   const user = JSON.parse(sessionStorage.getItem('user'));
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     handleSearch();
@@ -67,7 +67,7 @@ const Documents = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      
+ 
       setDocuments(documents.filter(doc => doc.id !== documentId));
       setSuccessMessage('Document deleted successfully!');
     } catch (error) {

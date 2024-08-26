@@ -122,27 +122,28 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
+        // Pronađi dokument ili vrati grešku 404 ako ne postoji
         $document = Document::findOrFail($id);
-
-        // Provera da li je korisnik vlasnik dokumenta
+    
+        // Proveri da li je trenutni korisnik vlasnik dokumenta
         if ($document->user_id !== Auth::id()) {
             return response()->json(['message' => 'You are not authorized to delete this document.'], 403);
         }
-
+    
         DB::transaction(function () use ($document) {
             // Brišemo komentare vezane za dokument
-            Comment::where('document_id', $document->id)->delete();
-            // Brišemo komentare tagove za dokument
-            DocumentTag::where('document_id', $document->id)->delete();
-
-
+            DB::table('comments')->where('document_id', $document->id)->delete();
+    
+            // Brišemo tagove vezane za dokument
+            DB::table('document_tag')->where('document_id', $document->id)->delete();
+    
             // Brišemo fajl iz storage-a
             Storage::disk('public')->delete($document->file_path);
-
+    
             // Brišemo dokument
-            $document->delete();
+            DB::table('documents')->where('id', $document->id)->delete();
         });
-
+    
         return response()->json(['message' => 'Document and associated comments and tags deleted successfully.']);
     }
     public function download(Request $request)
