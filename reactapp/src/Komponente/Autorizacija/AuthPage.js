@@ -59,24 +59,8 @@ const AuthPage = ({setIsLoggedIn,setUserRole}) => {
         // Registration request
         const response = await axios.post('http://127.0.0.1:8000/api/register', formData);
         setSuccessMessage('Registration successful!');
-        
-        // Save token and user to session storage
-        sessionStorage.setItem('access_token', response.data.access_token);
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
-        console.log('Token saved:', response.data.access_token);
-        console.log('User saved:', response.data.user);
-  
-        setIsLoggedIn(true);
-  
-        // Set user role directly after registration
-        setUserRole(response.data.user.role_id);
-  
-        // Navigate based on role
-        if (response.data.user.role_id === 2) {
-          navigate('/documents');
-        } else if (response.data.user.role_id === 1) {
-          navigate('/admin');
-        }
+        setIsLogin(true)
+ 
       }
       setErrors({});
     } catch (error) {
