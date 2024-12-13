@@ -1,0 +1,21 @@
+.navigacioni-meni ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navigacioni-meni ul li {
+    display: inline;
+  }
+  
+  .navigacioni-meni ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2em;
+  }
+  
+  .navigacioni-meni ul li a:hover {
+    text-decoration: underline;
+  }
+  
